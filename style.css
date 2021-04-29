@@ -17,7 +17,6 @@ body {
     font-size: 50px;
     width: 320px;
     position: relative;
-    border: 2px solid black;
     padding-left: 50px;
     font-weight: lighter;
 }
@@ -32,7 +31,6 @@ body {
 }
 
 #add_items {
-    border: 1px dashed red;
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
@@ -51,14 +49,19 @@ body {
     padding-right: 0px;
     margin-right: 0px;
     flex-grow: 2;
+    font-family: cursive;
 }
 
 #addBtn {
     width: 8%;
-    height: 90%;
+    height: 80%;
     font-size: 20px;
     border: 0px;
     flex-grow: 1;
+    margin-top: 2px;
+    background-color: black;
+    color: white;
+    font-family: cursive;
 }
 
 ul li {
@@ -66,4 +69,32 @@ ul li {
     font-size: 30px;
     font-family: cursive;
     list-style: none;
+}
+
+.clear-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#clear {
+    font-size: 20px;
+    background-color: black;
+    color: white;
+    border-style: hidden;
+    padding: 5px 10px;
+    font-family: cursive;
+}
+
+@media screen and (max-width:600px) {
+    .main_heading {
+        font-family: cursive;
+        font-size: 150px;
+        width: 320px;
+        position: absolute;
+        padding-left: 50px;
+        font-weight: lighter;
+        left: -10px;
+    }
 }
