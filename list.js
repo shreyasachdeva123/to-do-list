@@ -4,16 +4,16 @@ var ul = document.getElementById("list_items");
 
 addButton.addEventListener("click", () => {
     var li = document.createElement("li");
-    li.innerHTML = `${input_field.value}<button class="close">Delete</button>`;
+    li.innerHTML = `<p>${input_field.value}</p><button class="close">Delete</button>`;
     ul.appendChild(li);
     input_field.value = "";
     var deleteButton = document.getElementsByClassName("close");
-    console.log(deleteButton);
-    for (var i = 0; i < deleteButton.length; i++) {
-        deleteButton[i].addEventListener("click", (e) => {
-            e.target.style.visibility = "hidden";
-            e.target.parentElement.style.visibility = "hidden";
-        });
+
+});
+
+ul.addEventListener("click", (e) => {
+    if (e.target.className === `close`) {
+        ul.removeChild(e.target.parentElement);
     }
 });
 
