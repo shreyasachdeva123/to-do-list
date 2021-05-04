@@ -101,6 +101,16 @@ p {
     font-size: 20px;
 }
 
+.complete {
+    flex-grow: 1;
+    width: 5%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    font-family: cursive;
+    font-size: 20px;
+}
+
 .clear-button {
     display: flex;
     flex-direction: row;
