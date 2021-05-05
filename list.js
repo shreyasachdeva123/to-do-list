@@ -4,7 +4,7 @@ var ul = document.getElementById("list_items");
 var doneButton = document.getElementsByClassName("complete");
 
 addButton.addEventListener("click", (e) => {
-    fetch("http://todo-backend-sinatra.herokuapp.com/todos", {
+    fetch("https://todo-backend-sinatra.herokuapp.com/todos", {
             method: "POST",
             body: JSON.stringify({ title: `${input_field.value}` }),
             headers: { "content-type": "application/json" }
@@ -38,7 +38,7 @@ ul.addEventListener("click", (e) => {
     }
 });
 
-fetch('http://todo-backend-sinatra.herokuapp.com/todos', { method: "GET" })
+fetch('https://todo-backend-sinatra.herokuapp.com/todos', { method: "GET" })
     .then(response => response.json())
     .then(data => generateHTML(data))
     .finally(() => document.getElementById("load").style.display = "none")
