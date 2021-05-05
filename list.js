@@ -28,7 +28,7 @@ ul.addEventListener("click", (e) => {
     } else if (e.target.className === "complete") {
         console.log(e.target.dataset.url);
         fetch(e.target.dataset.url, {
-                method: "PUT",
+                method: "PATCH",
                 body: JSON.stringify({ completed: true }),
                 headers: { "content-type": "application/json" }
             })
@@ -41,12 +41,13 @@ ul.addEventListener("click", (e) => {
 fetch('http://todo-backend-sinatra.herokuapp.com/todos', { method: "GET" })
     .then(response => response.json())
     .then(data => generateHTML(data))
+    .finally(() => document.getElementById("load").style.display = "none")
 
 function generateHTML(data) {
     console.log(data);
     const html = data.map(item => {
         var li = document.createElement("li");
-        li.innerHTML = `<p>${item.title}</p><button data-url="${item.url}" class="complete">Done</button><button data-url="${item.url}" class="close">Delete</button>`;
+        li.innerHTML = `<p>${item.title} ${item.completed}</p><button data-url="${item.url}" class="complete">Done</button><button data-url="${item.url}" class="close">Delete</button>`;
         ul.appendChild(li);
         input_field.value = "";
         var deleteButton = document.getElementsByClassName("close");
