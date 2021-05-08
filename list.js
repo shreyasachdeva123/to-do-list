@@ -2,17 +2,20 @@ var addButton = document.getElementById("addBtn");
 var clearBtn = document.getElementById("clear");
 var ul = document.getElementById("list_items");
 
-addButton.addEventListener("click", (e) => {
-    console.log(ul.firstChild.dataset.order);
+addButton.addEventListener("click", () => {
+    console.log(ul.lastChild);
+    console.log(ul.lastChild.dataset.order);
     fetch("https://todo-backend-sinatra.herokuapp.com/todos", {
             method: "POST",
-            body: JSON.stringify({ title: `${input_field.value}`, completed: false, order: ul.firstChild.dataset.order + 1 }),
+            body: JSON.stringify({ title: `${input_field.value}`, completed: false, order: parseInt(ul.lastChild.dataset.order) + 1 }),
             headers: { "content-type": "application/json" }
         })
         .then(response => response.json())
         .then((data) => {
+            console.log(data);
             var li = document.createElement("li");
-            li.innerHTML = `<p>${data.title}</p><button data-order="${data.order}" data-completed="${data.completed}" data-url="${data.url}" class="complete">Done</button><button data-url="${data.url}" class="close">Delete</button>`;
+            li.setAttribute("data-order", data.order);
+            li.innerHTML = `<p>${data.title}</p><button data-completed="${data.completed}" data-url="${data.url}" class="complete">Done</button><button data-url="${data.url}" class="close">Delete</button>`;
             ul.appendChild(li);
             input_field.value = "";
             console.log(data.order);
@@ -23,7 +26,8 @@ addButton.addEventListener("click", (e) => {
 
 ul.addEventListener("click", (e) => {
     if (e.target.className === `close`) {
-        console.log(e.target.dataset.url);
+        console.log(e.target);
+        console.log(e.target.dataset);
         fetch(e.target.dataset.url, { method: "DELETE" })
             .then(() => ul.removeChild(e.target.parentElement))
             .catch(error => alert("oopsy", error))
@@ -65,7 +69,8 @@ function generateHTML(data) {
     console.log(data);
     const html = data.map(item => {
         var li = document.createElement("li");
-        li.innerHTML = `<p>${item.title}</p><button data-order="${item.order}" data-completed="${item.completed}" data-url="${item.url}" class="complete">Done</button><button data-url="${item.url}" class="close">Delete</button>`;
+        li.setAttribute("data-order", item.order);
+        li.innerHTML = `<p>${item.title}</p><button data-completed="${item.completed}" data-url="${item.url}" class="complete">Done</button><button data-url="${item.url}" class="close">Delete</button>`;
         ul.appendChild(li);
         input_field.value = "";
         console.log(item.completed);
