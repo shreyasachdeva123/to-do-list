@@ -3,58 +3,78 @@ var clearBtn = document.getElementById("clear");
 var ul = document.getElementById("list_items");
 
 addButton.addEventListener("click", () => {
-    console.log(ul.lastChild);
-    console.log(ul.lastChild.dataset.order);
-    fetch("https://todo-backend-sinatra.herokuapp.com/todos", {
-            method: "POST",
-            body: JSON.stringify({ title: `${input_field.value}`, completed: false, order: parseInt(ul.lastChild.dataset.order) + 1 }),
-            headers: { "content-type": "application/json" }
-        })
-        .then(response => response.json())
-        .then((data) => {
-            console.log(data);
-            var li = document.createElement("li");
-            li.setAttribute("data-order", data.order);
-            li.innerHTML = `<p>${data.title}</p><button data-completed="${data.completed}" data-url="${data.url}" class="complete">Done</button><button data-url="${data.url}" class="close">Delete</button>`;
-            ul.appendChild(li);
-            input_field.value = "";
-            console.log(data.order);
-        })
-        .catch(error => alert("oopsy", error))
+    if (input_field.value !== "") {
+        console.log(ul.lastChild);
+        console.log(ul.lastChild.dataset.order);
+        fetch("https://todo-backend-sinatra.herokuapp.com/todos", {
+                method: "POST",
+                body: JSON.stringify({ title: `${input_field.value}`, completed: false, order: parseInt(ul.lastChild.dataset.order) + 1 }),
+                headers: { "content-type": "application/json" }
+            })
+            .then(response => response.json())
+            .then((data) => {
+                console.log(data);
+                var li = document.createElement("li");
+                li.setAttribute("data-order", data.order);
+                li.innerHTML = `<p>${data.title}</p><button data-completed="${data.completed}" data-url="${data.url}" class="complete">Done</button><button data-url="${data.url}" class="close">Delete</button>`;
+                ul.appendChild(li);
+                input_field.value = "";
+                console.log(data.order);
+            })
+            .catch(error => alert("oopsy", error))
+    } else { alert("Oopsy! Cannot add an empty item to the list"); }
 });
 
 
 ul.addEventListener("click", (e) => {
-    if (e.target.className === `close`) {
-        console.log(e.target);
-        console.log(e.target.dataset);
-        fetch(e.target.dataset.url, { method: "DELETE" })
-            .then(() => ul.removeChild(e.target.parentElement))
-            .catch(error => alert("oopsy", error))
-    } else if (e.target.className === "complete") {
-        console.log(e.target.dataset.completed);
-        if (e.target.dataset.completed === "false") {
-            console.log("1");
-            fetch(e.target.dataset.url, {
-                    method: "PATCH",
-                    body: JSON.stringify({ completed: true }),
-                    headers: { "content-type": "application/json" }
+    console.log(e.target);
+    console.log(e.target.dataset);
+    if (e.target.dataset === null || e.target.dataset === "") {
+        alert("Oopsy! Unexpected error.");
+    } else {
+        if (e.target.className === `close`) {
+            fetch(e.target.dataset.url, { method: "DELETE" })
+                .then((response) => {
+                    console.log(response);
+                    ul.removeChild(e.target.parentElement);
                 })
-                .then(response => console.log(response))
-                .then(() => { e.target.previousElementSibling.style.textDecoration = "line-through"; })
-                .then(() => { e.target.dataset.completed = "true" })
+                //.then(() => ul.removeChild(e.target.parentElement))
                 .catch(error => alert("oopsy", error))
-        } else {
-            console.log("2");
-            fetch(e.target.dataset.url, {
-                    method: "PATCH",
-                    body: JSON.stringify({ completed: false }),
-                    headers: { "content-type": "application/json" }
-                })
-                .then(response => console.log(response))
-                .then(() => { e.target.dataset.completed = "false" })
-                .then(() => { e.target.previousElementSibling.style.textDecoration = "none"; })
-                .catch(error => alert("oopsy", error))
+        } else if (e.target.className === "complete") {
+            console.log(e.target.dataset.completed);
+            if (e.target.dataset.completed === "false") {
+                console.log("1");
+                fetch(e.target.dataset.url, {
+                        method: "PATCH",
+                        body: JSON.stringify({ completed: true }),
+                        headers: { "content-type": "application/json" }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        e.target.previousElementSibling.style.textDecoration = "line-through";
+                        e.target.dataset.completed = "true"
+                    })
+                    //.then(response => console.log(response))
+                    //.then(() => { e.target.previousElementSibling.style.textDecoration = "line-through"; })
+                    //.then(() => { e.target.dataset.completed = "true" })
+                    .catch(error => alert("oopsy", error))
+            } else {
+                console.log("2");
+                fetch(e.target.dataset.url, {
+                        method: "PATCH",
+                        body: JSON.stringify({ completed: false }),
+                        headers: { "content-type": "application/json" }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        e.target.dataset.completed = "false";
+                        e.target.previousElementSibling.style.textDecoration = "none";
+                    })
+                    //.then(response => console.log(response))
+                    //.then(() => { e.target.dataset.completed = "false" })
+                    //.then(() => { e.target.previousElementSibling.style.textDecoration = "none"; })
+                    .catch(error => alert("oopsy", error))
+            }
         }
     }
 });
@@ -62,7 +82,8 @@ ul.addEventListener("click", (e) => {
 fetch('https://todo-backend-sinatra.herokuapp.com/todos', { method: "GET" })
     .then(response => response.json())
     .then(data => generateHTML(data))
-    .then(() => document.getElementById("load").style.display = "none")
+    .catch((error) => alert("Oopsy", error))
+    .finally(() => document.getElementById("load").style.display = "none")
 
 
 function generateHTML(data) {
