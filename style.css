@@ -65,6 +65,10 @@ body {
     font-family: cursive;
 }
 
+#addBtn:hover {
+    border: 2px solid peru;
+}
+
 ul li {
     color: black;
     font-size: 20px;
@@ -109,6 +113,10 @@ p {
     margin-left: 1px;
 }
 
+.close:hover {
+    border: 2px solid peru;
+}
+
 .complete {
     flex-grow: 1;
     width: 5%;
@@ -118,6 +126,10 @@ p {
     font-family: cursive;
     font-size: 20px;
     border-style: hidden;
+}
+
+.complete:hover {
+    border: 2px solid peru;
 }
 
 .clear-button {
@@ -136,6 +148,10 @@ p {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-color: burlywood;
     font-weight: lighter;
+}
+
+#clear:hover {
+    border: 2px solid peru;
 }
 
 @media screen and (max-width:600px) {
