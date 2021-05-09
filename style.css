@@ -53,6 +53,10 @@ body {
     font-weight: lighter;
 }
 
+#input_field:hover {
+    border: 2px solid oldlace;
+}
+
 #addBtn {
     width: 8%;
     height: 80%;

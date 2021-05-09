@@ -128,6 +128,22 @@ function checkStatus(response) {
     if (response.ok === true) {
         return Promise.resolve(response);
     } else {
-        Promise.reject(alert(new Error(response.StatusText)));
+        Promise.reject(alert(new Error(response.statusText)));
     }
 }
+
+document.querySelector("input").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        if (input_field.value === "") {
+            alert("Oopsy! Cannot add an empty item to the list");
+        } else {
+            if (ul.lastChild === "" || ul.lastChild === null) {
+                createLi(0);
+            } else {
+                console.log(ul.lastChild);
+                console.log(ul.lastChild.dataset.order);
+                createLi(parseInt(ul.lastChild.dataset.order) + 1);
+            }
+        }
+    }
+});
