@@ -24,6 +24,7 @@ ul.addEventListener("click", (e) => {
     } else {
         if (e.target.className === `close`) {
             fetch(e.target.dataset.url, { method: "DELETE" })
+                .then(checkStatus)
                 .then((response) => {
                     console.log(response);
                     ul.removeChild(e.target.parentElement);
@@ -32,12 +33,12 @@ ul.addEventListener("click", (e) => {
         } else if (e.target.className === "complete") {
             console.log(e.target.dataset.completed);
             if (e.target.dataset.completed === "false") {
-                console.log("1");
                 fetch(e.target.dataset.url, {
                         method: "PATCH",
                         body: JSON.stringify({ completed: true }),
                         headers: { "content-type": "application/json" }
                     })
+                    .then(checkStatus)
                     .then((response) => {
                         console.log(response);
                         e.target.previousElementSibling.style.textDecoration = "line-through";
@@ -51,6 +52,7 @@ ul.addEventListener("click", (e) => {
                         body: JSON.stringify({ completed: false }),
                         headers: { "content-type": "application/json" }
                     })
+                    .then(checkStatus)
                     .then((response) => {
                         console.log(response);
                         e.target.dataset.completed = "false";
@@ -63,6 +65,7 @@ ul.addEventListener("click", (e) => {
 });
 
 fetch('https://todo-backend-sinatra.herokuapp.com/todos', { method: "GET" })
+    .then(checkStatus)
     .then(response => response.json())
     .then(data => generateHTML(data))
     .catch((error) => alert("Oopsy", error))
@@ -106,6 +109,7 @@ function createLi(value) {
             }),
             headers: { "content-type": "application/json" }
         })
+        .then(checkStatus)
         .then(response => response.json())
         .then((data) => {
             console.log(data);
@@ -117,4 +121,13 @@ function createLi(value) {
             console.log(data.order);
         })
         .catch(error => alert("oopsy", error))
+}
+
+function checkStatus(response) {
+    console.log(response);
+    if (response.ok === true) {
+        return Promise.resolve(response);
+    } else {
+        Promise.reject(alert(new Error(response.StatusText)));
+    }
 }
