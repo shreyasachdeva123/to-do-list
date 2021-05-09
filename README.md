@@ -6,4 +6,4 @@ This is a to-do-list. Please see instructions below to get a jist of the app fea
 4. You can click on the close button to delete the item from the list. 
 5. To start fresh and create a brand new list, you can click on "clear all". 
 
-You can click [here](https://github.com/shreyasachdeva123/to-do-list.git) to view the project.
+You can click [here](https://shreyasachdeva123.github.io/to-do-list/) to view the project.
