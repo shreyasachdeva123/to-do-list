@@ -77,7 +77,9 @@ clearBtn.addEventListener("click", () => {
 
 function generateHTML(data) {
     console.log(data);
-    const html = data.map(item => {
+    var sortedData = data.sort(function(a, b) { return parseInt(a.order) - parseInt(b.order) });
+    console.log(sortedData);
+    const html = sortedData.map(item => {
         var li = document.createElement("li");
         li.setAttribute("data-order", item.order);
         li.innerHTML = `<p>${item.title}</p><button data-completed="${item.completed}" data-url="${item.url}" class="complete">&#x2713;</button><button data-url="${item.url}" class="close">&#x292C;</button>`;
