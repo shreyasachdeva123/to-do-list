@@ -3,6 +3,8 @@ body {
     height: 100vh;
     margin: 0px;
     background-color: floralwhite;
+    display: flex;
+    flex-direction: column;
 }
 
 .body-wrapper {
@@ -10,6 +12,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: auto;
+    height: auto;
 }
 
 .main_heading {
@@ -28,6 +32,7 @@ body {
     width: 850px;
     height: auto;
     box-shadow: 10px 10px 10px 10px moccasin;
+    overflow: auto;
 }
 
 #add_items {
@@ -87,6 +92,10 @@ ul li:hover {
 
 #list_items {
     padding-left: 20px;
+}
+
+[contenteditable] {
+    outline: 0px solid transparent;
 }
 
 li {
