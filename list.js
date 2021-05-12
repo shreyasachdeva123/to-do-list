@@ -134,6 +134,21 @@ function createLi(value) {
             li.innerHTML = `<p>${data.title}</p><button data-completed="${data.completed}" data-url="${data.url}" class="complete">&#x2713;</button><button data-url="${data.url}" class="close">&#x292C;</button>`;
             ul.appendChild(li);
             input_field.value = "";
+            li.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    console.log(e.target);
+                    console.log("Im working");
+                    fetch(e.target.firstChild.nextElementSibling.dataset.url, {
+                            method: "PATCH",
+                            body: JSON.stringify({ title: e.target.firstChild.innerHTML }),
+                            headers: { "content-type": "application/json" }
+                        })
+                        .then(checkStatus)
+                        .then((response) => console.log(response))
+                        .catch((error) => alert("Oopsy", error))
+                }
+            });
             console.log(data.order);
         })
         .catch(error => {
