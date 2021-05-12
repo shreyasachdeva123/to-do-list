@@ -92,6 +92,8 @@ function generateHTML(data) {
         input_field.value = "";
         li.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
+                e.preventDefault();
+                console.log(e.target);
                 console.log("Im working");
                 fetch(e.target.firstChild.nextElementSibling.dataset.url, {
                         method: "PATCH",
@@ -145,7 +147,7 @@ function checkStatus(response) {
     if (response.ok === true) {
         return Promise.resolve(response);
     } else {
-        Promise.reject(alert(new Error(response.statusText)));
+        Promise.reject(alert(response.statusText));
     }
 }
 
